@@ -23,14 +23,20 @@ export default function VideoScreen() {
     const [currentTime, setCurrentTime] = useState(0);
     const [isSeeking, setIsSeeking] = useState(false);
 
-    const player = useVideoPlayer(VIDEO_SOURCES[sourceIndex].uri, player => {
-        player.loop = true;
-        player.timeUpdateEventInterval = 0.1; // Enable time updates every 100ms
-        player.play();
-    });
-
     const [isPlaying, setIsPlaying] = useState(true);
     const [isMuted, setIsMuted] = useState(false);
+
+    const player = useVideoPlayer(VIDEO_SOURCES[sourceIndex].uri, (newPlayer) => {
+        newPlayer.loop = true;
+        newPlayer.timeUpdateEventInterval = 0.1; // Enable time updates every 100ms
+        newPlayer.muted = !!isMuted; // Use !! for absolute safety
+        newPlayer.play();
+    });
+
+    // Sync state with player if player changes but state remains
+    useEffect(() => {
+        player.muted = !!isMuted;
+    }, [player, isMuted]);
 
     useEffect(() => {
         if (!isFocused) {
