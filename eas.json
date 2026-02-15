@@ -1,22 +1,26 @@
 {
-    "cli": {
-        "version": ">= 12.0.0",
-        "appVersionSource": "remote"
+  "cli": {
+    "version": ">= 12.0.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
     },
-    "build": {
-        "development": {
-            "developmentClient": true,
-            "distribution": "internal"
-        },
-        "preview": {
-            "distribution": "internal",
-            "android": {
-                "buildType": "apk"
-            }
-        },
-        "production": {}
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      }
     },
-    "submit": {
-        "production": {}
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_SENTRY_DSN": "https://4683b67c28ea7227f0c0a0f174e3b576@o4510888998993920.ingest.de.sentry.io/4510888999387216"
+      }
     }
+  },
+  "submit": {
+    "production": {}
+  }
 }

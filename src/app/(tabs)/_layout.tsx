@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Chrome, Clapperboard } from 'lucide-react-native';
+import { Chrome, Clapperboard, Settings } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import { Icon } from '@/components/ui/icon';
 import { NAV_THEME } from '@/lib/theme';
@@ -30,6 +30,13 @@ export default function setLayout() {
                 options={{
                     title: 'Player',
                     tabBarIcon: ({ color, size }) => <Icon as={Clapperboard} size={size} color={color} />,
+                }}
+            />
+            <Tabs.Screen
+                name="settings"
+                options={{
+                    title: 'Settings',
+                    tabBarIcon: ({ color, size }) => <Icon as={Settings} size={size} color={color} />,
                 }}
             />
         </Tabs>

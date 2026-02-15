@@ -1,8 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { scheduleLocalNotification } from '@/lib/notifications';
+import * as Sentry from '@sentry/react-native';
 import { useRef, useState } from 'react';
-import { View, ActivityIndicator, Platform } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
 import { ChevronLeft, ChevronRight, RotateCw } from 'lucide-react-native';
@@ -17,6 +18,8 @@ export default function WebViewScreen() {
     // Navigation state
     const [canGoBack, setCanGoBack] = useState(false);
     const [canGoForward, setCanGoForward] = useState(false);
+
+    const sentryTestCountRef = useRef(0);
 
     const handleLoadEnd = () => {
         if (!loaded) {
@@ -76,9 +79,9 @@ export default function WebViewScreen() {
                     </Button>
                 </View>
 
-                {/* Delay Notification Overlay Buttons */}
+                {/* Delay Notification Overlay Buttons + Sentry Test */}
                 <View
-                    className="absolute bottom-6 left-0 right-0 z-10 flex-row justify-center gap-4 px-4"
+                    className="absolute bottom-6 left-0 right-0 z-10 flex-row flex-wrap justify-center gap-4 px-4"
                     pointerEvents="box-none"
                 >
                     <Button
@@ -105,6 +108,21 @@ export default function WebViewScreen() {
                         ) : (
                             <Text className="font-bold">5s Delay</Text>
                         )}
+                    </Button>
+
+                    <Button
+                        onPress={() => {
+                            sentryTestCountRef.current += 1;
+                            const n = sentryTestCountRef.current;
+                            Sentry.withScope((scope) => {
+                                scope.setFingerprint(['test-sentry', String(n)]);
+                                Sentry.captureException(new Error(`Test Sentry #${n}`));
+                            });
+                        }}
+                        className="h-12 rounded-full shadow-lg border border-border bg-background/80"
+                        variant="secondary"
+                    >
+                        <Text className="font-bold">Test Sentry</Text>
                     </Button>
                 </View>
 

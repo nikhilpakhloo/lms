@@ -13,9 +13,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -34,7 +32,28 @@
     },
     "plugins": [
       "expo-router",
-      "expo-video"
+      "expo-video",
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "react-native",
+          "organization": "nikhil-wzo"
+        }
+      ],
+      [
+        "@mozzius/expo-dynamic-app-icon",
+        {
+          "appstore": {
+            "ios": "./src/assets/images/app-store.png",
+            "android": "./src/assets/images/app-store.png"
+          },
+          "social": {
+            "ios": "./src/assets/images/social.png",
+            "android": "./src/assets/images/social.png"
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
